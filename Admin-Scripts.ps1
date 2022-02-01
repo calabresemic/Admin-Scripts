@@ -45,7 +45,6 @@ Param (
 
 #region Variables
 $Global:credentials = [System.Management.Automation.PSCredential]::Empty #This is to allow for credential use in the form
-$Global:localDomain = Get-ADDomain -Current LocalComputer #This is to handle quickly copying script updates
 $Global:resourcesFolder = Join-Path $PSScriptRoot 'Resources'
 $Global:launchersFolder = Join-Path $PSScriptRoot 'Launchers'
 $Global:createFormsFolder = Join-Path $PSScriptRoot 'CreateForms'
@@ -342,9 +341,9 @@ Function Global:Update-AdminScripts {
 
     if($Beta){
         Write-Host "Syncing Form: $ScriptName with the domain master copy"
-        robocopy.exe "\\$($localDomain.NetBIOSName)\netlogon\Administration_Scripts\Beta_Scripts" "$env:SystemDrive\Beta_Scripts" /MIR | Out-Null
+        robocopy.exe "$env:LOGONSERVER\netlogon\Administration_Scripts\BetaAdmin_Scripts" "$env:SystemDrive\BetaAdmin_Scripts" /MIR | Out-Null
     } else {
-        robocopy.exe "\\$($localDomain.NetBIOSName)\netlogon\Administration_Scripts\Production_Scripts" "$env:SystemDrive\Administration_Scripts" | Out-Null
+        robocopy.exe "$env:LOGONSERVER\netlogon\Administration_Scripts\Production_Scripts" "$env:SystemDrive\Administration_Scripts" | Out-Null
     }
 }
 
@@ -563,18 +562,18 @@ Function Check-ScriptHash {
     $ScriptName = (Split-Path $PSCommandPath -Leaf)
     $hashDest = Get-FileHash $PSCommandPath -Algorithm "SHA256"
     if($Beta){
-        $hashSrc = Get-FileHash "\\$($localDomain.NetBIOSName)\netlogon\Administration_Scripts\Beta_Scripts\$ScriptName" -Algorithm "SHA256"
+        $hashSrc = Get-FileHash "$env:LOGONSERVER\netlogon\Administration_Scripts\BetaAdmin_Scripts\$ScriptName" -Algorithm "SHA256"
         if ($hashSrc.Hash -ne $hashDest.Hash) {
             Write-Warning "Your script is not up to date! Updating Now..."
-            robocopy.exe "\\$($localDomain.NetBIOSName)\netlogon\Administration_Scripts\Beta_Scripts" "$env:SystemDrive\Beta_Scripts" $ScriptName | Out-Null
+            robocopy.exe "$env:LOGONSERVER\netlogon\Administration_Scripts\BetaAdmin_Scripts" "$env:SystemDrive\BetaAdmin_Scripts" $ScriptName | Out-Null
             $CommandLine = "-File `"" + $PSCommandPath + "`" "
             Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
             Exit
         }
     } else {
-        $hashSrc = Get-FileHash "\\$($localDomain.NetBIOSName)\netlogon\Administration_Scripts\Production_Scripts\$ScriptName" -Algorithm "SHA256"
+        $hashSrc = Get-FileHash "$env:LOGONSERVER\netlogon\Administration_Scripts\Production_Scripts\$ScriptName" -Algorithm "SHA256"
         if ($hashSrc.Hash -ne $hashDest.Hash) {
-            robocopy.exe "\\$($localDomain.NetBIOSName)\netlogon\Administration_Scripts\Production_Scripts" "$env:SystemDrive\Administration_Scripts" $ScriptName | Out-Null
+            robocopy.exe "$env:LOGONSERVER\netlogon\Administration_Scripts\Production_Scripts" "$env:SystemDrive\Administration_Scripts" $ScriptName | Out-Null
             $CommandLine = "-WindowStyle Hidden -File `"" + $PSCommandPath + "`" "
             Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
             Exit
@@ -597,7 +596,7 @@ try{
     #Prompt the user to install RSAT
     if([System.Windows.Forms.MessageBox]::Show("You are missing the Active Directory Module. Would you like to install it now?","Missing RSAT Tools!","YesNo") -eq 'Yes') {
         try {
-            Start-Process -FilePath powershell.exe -ArgumentList "-file $(Join-Path $resourcesFolder 'Install-RSAT.ps1')" -Wait
+            Start-Process -FilePath powershell.exe -ArgumentList "-file $(Join-Path $PSScriptRoot 'Install-RSAT.ps1')" -Verb RunAs -Wait
             Import-Module ActiveDirectory -Global -ErrorAction Stop
         } catch {
             [System.Windows.Forms.MessageBox]::Show("Failed to install RSAT tools. Please manually install before running again.","RSAT Error!")

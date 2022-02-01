@@ -1,5 +1,5 @@
 #requires -version 5
-#requires –Modules ActiveDirectory
+#requires ï¿½Modules ActiveDirectory
 <#
 .SYNOPSIS
   Form used to edit admin accounts to be compliant with MPTO 00-33D-2001
@@ -188,7 +188,7 @@ Function Find-User {
             }
         }
     } catch {
-        if($_.Exception -eq 'No User Found') {
+        if($_.Exception.Message -eq 'No User Found') {
             #Can't find a user to update admin with, warn user and populate with admin info
             [System.Windows.Forms.MessageBox]::Show("Unable to find a user that matches this admin's role.","Failed to Find User!")
             Write-Log -Message ("Unable to find a user with filter: " + $userfilter) -Type Info -LogName EditAdminForm

@@ -47,7 +47,7 @@ Function Disable-Buttons {
 $form_Load = {
     $userName = "$env:USERDOMAIN\$env:USERNAME"
     $credentialStatusLabel.Text = "Credentials: $userName"
-    $ForestSelector.SelectedNode = $ForestSelector.Nodes | Where-Object {$_.Name -eq $localDomain.DNSRoot}
+    $ForestSelector.SelectedNode = $ForestSelector.Nodes | Where-Object {$_.Name -eq $env:USERDNSDOMAIN}
 }
 
 #Event triggered when TreeView is selected, can cancel action
