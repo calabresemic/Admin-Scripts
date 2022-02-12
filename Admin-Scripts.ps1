@@ -659,6 +659,10 @@ $Global:PayPlans = @(
     'GS'
     'GG'
     '99'
+    'MW'
+    'NH'
+    'ND'
+    'ES'
 )
 
 #This array holds all the suffix/generational qualifiers available for selection in the form.
