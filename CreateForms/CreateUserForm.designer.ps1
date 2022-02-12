@@ -1071,7 +1071,7 @@ $panel14.TabIndex = [System.Int32]8
 #payPlanCombobox
 #
 $payPlanCombobox.Dock = [System.Windows.Forms.DockStyle]::Top
-$payPlanCombobox.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
+$payPlanCombobox.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDown
 $payPlanCombobox.FlatStyle = [System.Windows.Forms.FlatStyle]::Popup
 $payPlanCombobox.FormattingEnabled = $true
 $payPlanCombobox.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]0,[System.Int32]35))
