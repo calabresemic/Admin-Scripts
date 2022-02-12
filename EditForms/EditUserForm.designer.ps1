@@ -1375,7 +1375,7 @@ $savePanel.Dock = [System.Windows.Forms.DockStyle]::Top
 $savePanel.ForeColor = [System.Drawing.Color]::Black
 $savePanel.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]10,[System.Int32]1573))
 $savePanel.Name = [System.String]'savePanel'
-$savePanel.Padding = (New-Object -TypeName System.Windows.Forms.Padding -ArgumentList @([System.Int32]5,[System.Int32]15,[System.Int32]0,[System.Int32]10))
+$savePanel.Padding = (New-Object -TypeName System.Windows.Forms.Padding -ArgumentList @([System.Int32]5,[System.Int32]15,[System.Int32]0,[System.Int32]25))
 $savePanel.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]1320,[System.Int32]85))
 $savePanel.TabIndex = [System.Int32]64
 $savePanel.Visible = $false
@@ -1778,7 +1778,6 @@ Add-Member -InputObject $EditUserForm -Name locationInfoGroupbox -Value $locatio
 Add-Member -InputObject $EditUserForm -Name panel1 -Value $panel1 -MemberType NoteProperty
 Add-Member -InputObject $EditUserForm -Name label12 -Value $label12 -MemberType NoteProperty
 Add-Member -InputObject $EditUserForm -Name DcBox -Value $DcBox -MemberType NoteProperty
-Add-Member -InputObject $EditUserForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $EditUserForm -Name editButton -Value $editButton -MemberType NoteProperty
 Add-Member -InputObject $EditUserForm -Name expirationDateTimePicker -Value $expirationDateTimePicker -MemberType NoteProperty
 Add-Member -InputObject $EditUserForm -Name accountExpirationCheckbox -Value $accountExpirationCheckbox -MemberType NoteProperty

@@ -690,7 +690,6 @@ Add-Member -InputObject $CreateSVCForm -Name unitCombobox -Value $unitCombobox -
 Add-Member -InputObject $CreateSVCForm -Name label5 -Value $label5 -MemberType NoteProperty
 Add-Member -InputObject $CreateSVCForm -Name label4 -Value $label4 -MemberType NoteProperty
 Add-Member -InputObject $CreateSVCForm -Name panel1 -Value $panel1 -MemberType NoteProperty
-Add-Member -InputObject $CreateSVCForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $CreateSVCForm -Name createButton -Value $createButton -MemberType NoteProperty
 Add-Member -InputObject $CreateSVCForm -Name panel2 -Value $panel2 -MemberType NoteProperty
 Add-Member -InputObject $CreateSVCForm -Name pathTextbox -Value $pathTextbox -MemberType NoteProperty

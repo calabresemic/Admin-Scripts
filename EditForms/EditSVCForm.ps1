@@ -44,19 +44,19 @@ Function Populate-Form {
         [Microsoft.ActiveDirectory.Management.ADAccount]$Account
     )
 
-    $nameTextbox.Text = $Account.Name
-    $CRQTextbox.Text = $Account.extensionAttribute8
-    $descriptionTextbox.Text = $Account.description
-    $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l)
-    $unitComboBox.Text = $Account.o
-    $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName
-    $phoneTextbox.Text = $Account.OfficePhone
-    $emailTextbox.Text = $Account.extensionAttribute13
+    if(![string]::IsNullOrEmpty($Account.Name)) { $nameTextbox.Text = $Account.Name.Trim() }
+    if(![string]::IsNullOrEmpty($Account.extensionAttribute8)) { $CRQTextbox.Text = $Account.extensionAttribute8.Trim() }
+    if(![string]::IsNullOrEmpty($Account.description)) { $descriptionTextbox.Text = $Account.description.Trim() }
+    if(![string]::IsNullOrEmpty($Account.l)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l.Trim()) }
+    if(![string]::IsNullOrEmpty($Account.o)) { $unitComboBox.Text = $Account.o.Trim() }
+    if(![string]::IsNullOrEmpty($Account.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName.Trim() }
+    if(![string]::IsNullOrEmpty($Account.OfficePhone)) { $phoneTextbox.Text = $Account.OfficePhone.Trim() }
+    if(![string]::IsNullOrEmpty($Account.extensionAttribute13)) { $emailTextbox.Text = $Account.extensionAttribute13.Trim() }
 
     #If account has expiration date. Check the box and set the date.
-    if (![string]::IsNullOrEmpty($SVCInfo.AccountExpirationDate)) {
+    if (![string]::IsNullOrEmpty($Account.AccountExpirationDate)) {
         $accountExpirationCheckbox.Checked = $true
-        $expirationDateTimePicker.Value = $SVCInfo.AccountExpirationDate
+        $expirationDateTimePicker.Value = $Account.AccountExpirationDate
     }
 
     #Defaults to Enabled: True, if account is disabled, set to Enabled: False
@@ -115,9 +115,9 @@ $form_Load = {
     if ($SVCDistinguishedName) {
         try {
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                $script:SVCInfo = Get-ADUser -Identity $SVCDistinguishedName -Properties * -Server $DC
+                [array]$script:SVCInfo = Get-ADUser -Identity $SVCDistinguishedName -Properties * -Server $DC
             } else {
-                $script:SVCInfo = Get-ADUser -Identity $SVCDistinguishedName -Properties * -Server $DC -Credential $credentials
+                [array]$script:SVCInfo = Get-ADUser -Identity $SVCDistinguishedName -Properties * -Server $DC -Credential $credentials
             }
 
             if($SVCInfo.count -ne 1) {
@@ -127,7 +127,7 @@ $form_Load = {
             }
 
         } catch {
-            if($_.Exception -eq "No Account Found") {
+            if($_.Exception.Message -eq "No Account Found") {
                 #Failed to find account associated with the passed DN
                 [System.Windows.Forms.MessageBox]::Show($SVCDistinguishedName + " was passed to the script but failed to map to an account.","Failed to Find Account!")
             } else {

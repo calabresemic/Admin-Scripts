@@ -34,23 +34,28 @@ Param(
 
 #region Functions
 
-Function Populate-Form ([Microsoft.ActiveDirectory.Management.ADAccount]$Account) {
-    $lastNameTextbox.Text = $Account.Surname
-    $firstNameTextbox.Text = $Account.GivenName
-    $initialTextbox.Text = $Account.Initials
-    $edipiTextbox.Text = $Account.EmployeeID
-    $suffixCombobox.SelectedItem = $Account.generationQualifier
-    $citizenshipTextbox.Text = $Account.extensionAttribute4
-    $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType)
-    $titleTextbox.Text = $Account.Title
-    $payPlanCombobox.SelectedItem = $Account.payPlan
-    $payGradeCombobox.SelectedItem = $Account.payGrade
-    $branchCombobox.SelectedItem = $Account.company
-    $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department)
-    $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l)
-    $unitComboBox.Text = $Account.o
-    $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName
-    $phoneTextbox.Text = $Account.OfficePhone
+Function Populate-Form {
+    Param(
+        [Parameter(Mandatory)]
+        [Microsoft.ActiveDirectory.Management.ADAccount]$Account
+    )
+
+    if(![string]::IsNullOrEmpty($account.Surname)) { $lastNameTextbox.Text = $Account.Surname.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $firstNameTextbox.Text = $Account.GivenName.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $initialTextbox.Text = $Account.Initials.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $edipiTextbox.Text = $Account.EmployeeID.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $suffixCombobox.SelectedItem = $Account.generationQualifier.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $citizenshipTextbox.Text = $Account.extensionAttribute4.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType.Trim()) }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $titleTextbox.Text = $Account.Title.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $payPlanCombobox.SelectedItem = $Account.payPlan.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $payGradeCombobox.SelectedItem = $Account.payGrade.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $branchCombobox.SelectedItem = $Account.company.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department.Trim()) }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l.Trim()) }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $unitComboBox.Text = $Account.o.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName.Trim() }
+    if(![string]::IsNullOrEmpty($account.Surname)) { $phoneTextbox.Text = $Account.OfficePhone.Trim() }
 
     Invoke-Command $noUserButton_Click #Hide the searcher and show the rest of the form
 }
@@ -150,11 +155,11 @@ $searchButton_Click = {
     }
 
     if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC | Select-Object Name,DistinguishedName | ForEach-Object {
+        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object {
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     } else {
-        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | ForEach-Object{
+        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object{
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     }

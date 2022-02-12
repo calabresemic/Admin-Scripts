@@ -513,7 +513,6 @@ Add-Member -InputObject $NOSLauncher -Name welcomePanel2 -Value $welcomePanel2 -
 Add-Member -InputObject $NOSLauncher -Name domainInfoBackground -Value $domainInfoBackground -MemberType NoteProperty
 Add-Member -InputObject $NOSLauncher -Name domainInfoTextbox -Value $domainInfoTextbox -MemberType NoteProperty
 Add-Member -InputObject $NOSLauncher -Name welcomeLabel -Value $welcomeLabel -MemberType NoteProperty
-Add-Member -InputObject $NOSLauncher -Name helpButton -Value $helpButton -MemberType NoteProperty
 Add-Member -InputObject $NOSLauncher -Name button1 -Value $button1 -MemberType NoteProperty
 }
 . InitializeComponent

@@ -43,29 +43,29 @@ Function Populate-Form {
         [Microsoft.ActiveDirectory.Management.ADAccount]$Account
     )
 
-    $lastNameTextbox.Text = $Account.Surname
-    $firstNameTextbox.Text = $Account.GivenName
-    $initialTextbox.Text = $Account.Initials
-    $edipiTextbox.Text = $Account.EmployeeID
-    $suffixCombobox.SelectedItem = $Account.generationQualifier
-    $citizenshipTextbox.Text = $Account.extensionAttribute4
-    $descriptionTextBox.Text = $Account.description
-    $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType)
-    $titleTextbox.Text = $Account.Title
-    $payPlanCombobox.SelectedItem = $Account.payPlan
-    $payGradeCombobox.SelectedItem = $Account.payGrade
-    $branchCombobox.SelectedItem = $Account.company
-    $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department)
-    $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l)
-    $unitComboBox.Text = $Account.o
-    $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName
-    $phoneTextbox.Text = $Account.OfficePhone
-    $emailTextbox.Text = $Account.mail
-    $streetTextbox.Text = $Account.streetAddress
-    $cityTextbox.Text = $Account.l
-    $stateTextbox.Text = $Account.state
-    $zipTextbox.Text = $Account.postalCode
-    $countryTextbox.Text = $Account.country
+    if(![string]::IsNullOrEmpty($adminAccount.Surname)) { $lastNameTextbox.Text = $Account.Surname.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.GivenName)) { $firstNameTextbox.Text = $Account.GivenName.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.Initials)) { $initialTextbox.Text = $Account.Initials.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.EmployeeID)) { $edipiTextbox.Text = $Account.EmployeeID.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.generationQualifier)) { $suffixCombobox.SelectedItem = $Account.generationQualifier.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.extensionAttribute4)) { $citizenshipTextbox.Text = $Account.extensionAttribute4.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.description)) { $descriptionTextBox.Text = $Account.description.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType.Trim()) }
+    if(![string]::IsNullOrEmpty($adminAccount.Title)) { $titleTextbox.Text = $Account.Title.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.payPlan)) { $payPlanCombobox.SelectedItem = $Account.payPlan.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.payGrade)) { $payGradeCombobox.SelectedItem = $Account.payGrade.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.company)) { $branchCombobox.SelectedItem = $Account.company.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.department)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department.Trim()) }
+    if(![string]::IsNullOrEmpty($adminAccount.l)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l.Trim()) }
+    if(![string]::IsNullOrEmpty($adminAccount.o)) { $unitComboBox.Text = $Account.o.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.OfficePhone)) { $phoneTextbox.Text = $Account.OfficePhone.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.mail)) { $emailTextbox.Text = $Account.mail.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.streetAddress)) { $streetTextbox.Text = $Account.streetAddress.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.l)) { $cityTextbox.Text = $Account.l.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.state)) { $stateTextbox.Text = $Account.state.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.postalCode)) { $zipTextbox.Text = $Account.postalCode.Trim() }
+    if(![string]::IsNullOrEmpty($adminAccount.country)) { $countryTextbox.Text = $Account.country.Trim() }
 
     #If account has expiration date. Check the box and set the date.
     if (![string]::IsNullOrEmpty($Account.AccountExpirationDate)) {
@@ -270,9 +270,9 @@ $form_Load = {
     if ($UserDistinguishedName) {
         try {
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                $script:userInfo = Get-ADUser -Identity $UserDistinguishedName -Properties *  -Server $DC
+                [array]$script:userInfo = Get-ADUser -Identity $UserDistinguishedName -Properties *  -Server $DC
             } else {
-                $script:userInfo = Get-ADUser -Identity $UserDistinguishedName -Properties *  -Server $DC -Credential $credentials
+                [array]$script:userInfo = Get-ADUser -Identity $UserDistinguishedName -Properties *  -Server $DC -Credential $credentials
             }
 
             if($userInfo.count -ne 1) {
@@ -282,7 +282,7 @@ $form_Load = {
             }
 
         } catch {
-            if($_.Exception -eq "No Account Found") {
+            if($_.Exception.Message -eq "No Account Found") {
                 #Failed to find account associated with the passed DN
                 [System.Windows.Forms.MessageBox]::Show($UserDistinguishedName + " was passed to the script but failed to map to an account.","Failed to Find Account!")
             } else {

@@ -1629,7 +1629,6 @@ Add-Member -InputObject $createUserForm -Name label20 -Value $label20 -MemberTyp
 Add-Member -InputObject $createUserForm -Name label19 -Value $label19 -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name addGroupsCheckbox -Value $addGroupsCheckbox -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name panel1 -Value $panel1 -MemberType NoteProperty
-Add-Member -InputObject $createUserForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name createButton -Value $createButton -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name pathTreeView -Value $pathTreeView -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name MAJCOMCombobox -Value $MAJCOMCombobox -MemberType NoteProperty

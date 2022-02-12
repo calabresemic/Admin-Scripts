@@ -1,5 +1,5 @@
 #requires -version 5
-#requires ï¿½Modules ActiveDirectory
+#requires –Modules ActiveDirectory
 <#
 .SYNOPSIS
   Form used to edit admin accounts to be compliant with MPTO 00-33D-2001
@@ -16,7 +16,7 @@
   Log file stored in %LocalAppData%\EditAdminForm.log
   Compliant accounts :)
 .NOTES
-  Version:        1.0
+  Version:        1.1
   Author:         Michael Calabrese
   Creation Date:  1/18/2022
   Purpose/Change: Initial script development
@@ -28,6 +28,9 @@
 .EXAMPLE
   If running for a NOS/COS admin
   .\EditAdminForm.ps1 -NOSOverride
+
+.CHANGELOG
+  Fixed the way the form is populated.
 #>
 
 Param (
@@ -48,41 +51,78 @@ Function Populate-Form {
     )
 
     if($userAccount){
-        $lastNameTextbox.Text = $userAccount.Surname
-        $firstNameTextbox.Text = $userAccount.GivenName
-        $initialTextbox.Text = $userAccount.Initials
-        $edipiTextbox.Text = $userAccount.EmployeeID
-        $suffixCombobox.SelectedItem = $userAccount.generationQualifier
-        $citizenshipTextbox.Text = $userAccount.extensionAttribute4
-        $descriptionTextBox.Text = $userAccount.description
-        $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($userAccount.EmployeeType)
-        $titleTextbox.Text = $userAccount.Title
-        $payPlanCombobox.SelectedItem = $userAccount.payPlan
-        $payGradeCombobox.SelectedItem = $userAccount.payGrade
-        $branchCombobox.SelectedItem = $userAccount.company
-        $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($userAccount.department)
-        $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($userAccount.l)
-        $unitComboBox.Text = $userAccount.o
-        $officeSymbolTextbox.Text = $userAccount.physicalDeliveryOfficeName
-        $phoneTextbox.Text = $userAccount.OfficePhone
+
+        if([string]::IsNullOrEmpty($userAccount.Surname)) { $lastNameTextbox.Text = $adminAccount.Surname }
+        else { $lastNameTextbox.Text = $userAccount.Surname.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.GivenName)) { $lastNameTextbox.Text = $adminAccount.GivenName }
+        else { $lastNameTextbox.Text = $userAccount.GivenName.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.Initials)) { $firstNameTextbox.Text = $adminAccount.Initials }
+        else { $firstNameTextbox.Text = $userAccount.Initials.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.EmployeeID)) { $edipiTextbox.Text = $adminAccount.EmployeeID }
+        else { $edipiTextbox.Text = $userAccount.EmployeeID.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.generationQualifier)) { $suffixCombobox.Text = $adminAccount.generationQualifier }
+        else { $suffixCombobox.Text = $userAccount.generationQualifier.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.extensionAttribute4)) { $citizenshipTextbox.Text = $adminAccount.extensionAttribute4 }
+        else { $citizenshipTextbox.Text = $userAccount.extensionAttribute4.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.description)) { $descriptionTextBox.Text = $adminAccount.description }
+        else { $descriptionTextBox.Text = $userAccount.description.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($adminAccount.EmployeeType) }
+        else { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($userAccount.EmployeeType.Trim()) }
+
+        if([string]::IsNullOrEmpty($userAccount.Title)) { $titleTextbox.Text = $adminAccount.Title }
+        else { $titleTextbox.Text = $userAccount.Title.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.payPlan)) { $payPlanCombobox.SelectedItem = $adminAccount.payPlan }
+        else { $payPlanCombobox.SelectedItem = $userAccount.payPlan.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.payGrade)) { $payGradeCombobox.SelectedItem = $adminAccount.payGrade }
+        else { $payGradeCombobox.SelectedItem = $userAccount.payGrade.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.company)) { $branchCombobox.SelectedItem = $adminAccount.company }
+        else { $branchCombobox.SelectedItem = $userAccount.company.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.department)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($adminAccount.department) }
+        else { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($userAccount.department.Trim()) }
+
+        if([string]::IsNullOrEmpty($userAccount.l)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($adminAccount.l) }
+        else { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($userAccount.l.Trim()) }
+
+        if([string]::IsNullOrEmpty($userAccount.o)) { $unitComboBox.Text = $adminAccount.o }
+        else { $unitComboBox.Text = $userAccount.o.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $adminAccount.physicalDeliveryOfficeName }
+        else { $officeSymbolTextbox.Text = $userAccount.physicalDeliveryOfficeName.Trim() }
+
+        if([string]::IsNullOrEmpty($userAccount.OfficePhone)) { $phoneTextbox.Text = $adminAccount.OfficePhone }
+        else { $phoneTextbox.Text = $userAccount.OfficePhone.Trim() }
+
     } else {
-        $lastNameTextbox.Text = $adminAccount.Surname
-        $firstNameTextbox.Text = $adminAccount.GivenName
-        $initialTextbox.Text = $adminAccount.Initials
-        $edipiTextbox.Text = $adminAccount.EmployeeID
-        $suffixCombobox.SelectedItem = $adminAccount.generationQualifier
-        $citizenshipTextbox.Text = $adminAccount.extensionAttribute4
-        $descriptionTextBox.Text = $adminAccount.description
-        $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($adminAccount.EmployeeType)
-        $titleTextbox.Text = $adminAccount.Title
-        $payPlanCombobox.SelectedItem = $adminAccount.payPlan
-        $payGradeCombobox.SelectedItem = $adminAccount.payGrade
-        $branchCombobox.SelectedItem = $adminAccount.company
-        $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($adminAccount.department)
-        $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($adminAccount.l)
-        $unitComboBox.Text = $adminAccount.o
-        $officeSymbolTextbox.Text = $adminAccount.physicalDeliveryOfficeName
-        $phoneTextbox.Text = $adminAccount.OfficePhone
+
+        if(![string]::IsNullOrEmpty($adminAccount.Surname)) { $lastNameTextbox.Text = $adminAccount.Surname.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.GivenName)) { $firstNameTextbox.Text = $adminAccount.GivenName.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.Initials)) { $initialTextbox.Text = $adminAccount.Initials.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.EmployeeID)) { $edipiTextbox.Text = $adminAccount.EmployeeID.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.generationQualifier)) { $suffixCombobox.SelectedItem = $adminAccount.generationQualifier.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.extensionAttribute4)) { $citizenshipTextbox.Text = $adminAccount.extensionAttribute4.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.description)) { $descriptionTextBox.Text = $adminAccount.description.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($adminAccount.EmployeeType.Trim()) }
+        if(![string]::IsNullOrEmpty($adminAccount.Title)) { $titleTextbox.Text = $adminAccount.Title.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.payPlan)) { $payPlanCombobox.SelectedItem = $adminAccount.payPlan.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.payGrade)) { $payGradeCombobox.SelectedItem = $adminAccount.payGrade.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.company)) { $branchCombobox.SelectedItem = $adminAccount.company.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.department)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($adminAccount.department.Trim()) }
+        if(![string]::IsNullOrEmpty($adminAccount.l)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($adminAccount.l.Trim()) }
+        if(![string]::IsNullOrEmpty($adminAccount.o)) { $unitComboBox.Text = $adminAccount.o.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $adminAccount.physicalDeliveryOfficeName.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.OfficePhone)) { $phoneTextbox.Text = $adminAccount.OfficePhone.Trim() }
+
     }
 
     #Try to capture the Admin Level code and populate the admin level combobox
@@ -152,9 +192,9 @@ Function Find-User {
 
     try {
         if($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-            $userInfo = Get-ADUser -LDAPFilter $userfilter -Properties * -Server $DC
+            [array]$userInfo = Get-ADUser -LDAPFilter $userfilter -Properties * -SearchBase "OU=Bases,$($Domain.DistinguishedName)" -Server $DC
         } else {
-            $userInfo = Get-ADUser -LDAPFilter $userfilter -Properties * -Server $DC -Credential $credentials
+            [array]$userInfo = Get-ADUser -LDAPFilter $userfilter -Properties * -SearchBase "OU=Bases,$($Domain.DistinguishedName)" -Server $DC -Credential $credentials
         }
 
         Switch($userInfo.count) {
@@ -231,9 +271,9 @@ $form_Load = {
     if ($AdminDistinguishedName) {
         try {
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                $script:AdminInfo = Get-ADUser -Identity $AdminDistinguishedName -Properties *  -Server $DC
+                [array]$script:AdminInfo = Get-ADUser -Identity $AdminDistinguishedName -Properties *  -Server $DC
             } else {
-                $script:AdminInfo = Get-ADUser -Identity $AdminDistinguishedName -Properties *  -Server $DC -Credential $credentials
+                [array]$script:AdminInfo = Get-ADUser -Identity $AdminDistinguishedName -Properties *  -Server $DC -Credential $credentials
             }
             
             if($AdminInfo.count -ne 1) {
@@ -243,7 +283,7 @@ $form_Load = {
             }
             
         } catch {
-            if($_.Exception -eq "No Account Found") {
+            if($_.Exception.Message -eq "No Account Found") {
                 #Failed to find account associated with the passed DN
                 [System.Windows.Forms.MessageBox]::Show($AdminDistinguishedName + " was passed to the script but failed to map to an account.","Failed to Find Account!")
             } else {
@@ -275,11 +315,11 @@ $searchButton_Click = {
     }
 
     if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC | Select-Object Name,DistinguishedName | % {
+        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object {
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     } else {
-        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | % {
+        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object {
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     }
@@ -311,7 +351,7 @@ $resultDataGridView_CellContentClick = {
         } else {
             #Improperly formatted CN. Unable to search user.
             [System.Windows.Forms.MessageBox]::Show("Admin's CN is not properly formatted. Unable to search for matching user.","Failed to Find User!")
-            Populate-Form -Account $adminInfo
+            Populate-Form -adminAccount $adminInfo
         }
 	}
 }

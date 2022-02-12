@@ -904,7 +904,6 @@ Add-Member -InputObject $EditSVCForm -Name enabledLabel -Value $enabledLabel -Me
 Add-Member -InputObject $EditSVCForm -Name savePanel -Value $savePanel -MemberType NoteProperty
 Add-Member -InputObject $EditSVCForm -Name label12 -Value $label12 -MemberType NoteProperty
 Add-Member -InputObject $EditSVCForm -Name DcBox -Value $DcBox -MemberType NoteProperty
-Add-Member -InputObject $EditSVCForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $EditSVCForm -Name editButton -Value $editButton -MemberType NoteProperty
 Add-Member -InputObject $EditSVCForm -Name validationLabel -Value $validationLabel -MemberType NoteProperty
 Add-Member -InputObject $EditSVCForm -Name validateLinkLabel -Value $validateLinkLabel -MemberType NoteProperty

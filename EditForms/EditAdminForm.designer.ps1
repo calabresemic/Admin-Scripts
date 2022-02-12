@@ -1519,7 +1519,6 @@ Add-Member -InputObject $EditAdminForm -Name SelectColumn -Value $SelectColumn -
 Add-Member -InputObject $EditAdminForm -Name savePanel -Value $savePanel -MemberType NoteProperty
 Add-Member -InputObject $EditAdminForm -Name label12 -Value $label12 -MemberType NoteProperty
 Add-Member -InputObject $EditAdminForm -Name DcBox -Value $DcBox -MemberType NoteProperty
-Add-Member -InputObject $EditAdminForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $EditAdminForm -Name editButton -Value $editButton -MemberType NoteProperty
 Add-Member -InputObject $EditAdminForm -Name accountActionGroupbox -Value $accountActionGroupbox -MemberType NoteProperty
 Add-Member -InputObject $EditAdminForm -Name tableLayoutPanel6 -Value $tableLayoutPanel6 -MemberType NoteProperty

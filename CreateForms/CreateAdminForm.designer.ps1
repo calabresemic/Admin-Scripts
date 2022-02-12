@@ -1625,7 +1625,6 @@ Add-Member -InputObject $CreateAdminForm -Name radioButton1 -Value $radioButton1
 Add-Member -InputObject $CreateAdminForm -Name validatorTextbox -Value $validatorTextbox -MemberType NoteProperty
 Add-Member -InputObject $CreateAdminForm -Name label12 -Value $label12 -MemberType NoteProperty
 Add-Member -InputObject $CreateAdminForm -Name DcBox -Value $DcBox -MemberType NoteProperty
-Add-Member -InputObject $CreateAdminForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $CreateAdminForm -Name createButton -Value $createButton -MemberType NoteProperty
 Add-Member -InputObject $CreateAdminForm -Name createPanel -Value $createPanel -MemberType NoteProperty
 Add-Member -InputObject $CreateAdminForm -Name addGroupsCheckbox -Value $addGroupsCheckbox -MemberType NoteProperty

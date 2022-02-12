@@ -508,7 +508,6 @@ Add-Member -InputObject $CreateComputerForm -Name JoinRightGroupBox -Value $Join
 Add-Member -InputObject $CreateComputerForm -Name panel4 -Value $panel4 -MemberType NoteProperty
 Add-Member -InputObject $CreateComputerForm -Name label11 -Value $label11 -MemberType NoteProperty
 Add-Member -InputObject $CreateComputerForm -Name DcBox -Value $DcBox -MemberType NoteProperty
-Add-Member -InputObject $CreateComputerForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $CreateComputerForm -Name createButton -Value $createButton -MemberType NoteProperty
 Add-Member -InputObject $CreateComputerForm -Name panel6 -Value $panel6 -MemberType NoteProperty
 Add-Member -InputObject $CreateComputerForm -Name label4 -Value $label4 -MemberType NoteProperty

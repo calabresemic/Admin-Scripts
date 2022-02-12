@@ -580,7 +580,6 @@ Add-Member -InputObject $CreateGroupForm -Name label1 -Value $label1 -MemberType
 Add-Member -InputObject $CreateGroupForm -Name groupBox1 -Value $groupBox1 -MemberType NoteProperty
 Add-Member -InputObject $CreateGroupForm -Name groupBox2 -Value $groupBox2 -MemberType NoteProperty
 Add-Member -InputObject $CreateGroupForm -Name panel1 -Value $panel1 -MemberType NoteProperty
-Add-Member -InputObject $CreateGroupForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $CreateGroupForm -Name createButton -Value $createButton -MemberType NoteProperty
 Add-Member -InputObject $CreateGroupForm -Name label11 -Value $label11 -MemberType NoteProperty
 Add-Member -InputObject $CreateGroupForm -Name label10 -Value $label10 -MemberType NoteProperty
