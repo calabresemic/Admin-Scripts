@@ -1097,7 +1097,7 @@ $panel6.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([S
 $panel6.Name = [System.String]'panel6'
 $panel6.Padding = (New-Object -TypeName System.Windows.Forms.Padding -ArgumentList @([System.Int32]0,[System.Int32]10,[System.Int32]20,[System.Int32]0))
 $panel6.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]202,[System.Int32]57))
-$panel6.TabIndex = [System.Int32]4
+$panel6.TabIndex = [System.Int32]3
 #
 #suffixCombobox
 #
@@ -1131,7 +1131,7 @@ $panel5.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([S
 $panel5.Name = [System.String]'panel5'
 $panel5.Padding = (New-Object -TypeName System.Windows.Forms.Padding -ArgumentList @([System.Int32]0,[System.Int32]10,[System.Int32]20,[System.Int32]0))
 $panel5.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]271,[System.Int32]57))
-$panel5.TabIndex = [System.Int32]3
+$panel5.TabIndex = [System.Int32]4
 #
 #edipiTextbox
 #
