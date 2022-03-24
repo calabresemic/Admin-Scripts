@@ -44,13 +44,15 @@ Param (
 [void][System.Reflection.Assembly]::Load('System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089')
 
 #region Variables
-$Global:credentials = [System.Management.Automation.PSCredential]::Empty #This is to allow for credential use in the form
-$Global:resourcesFolder = Join-Path $PSScriptRoot 'Resources'
-$Global:launchersFolder = Join-Path $PSScriptRoot 'Launchers'
-$Global:createFormsFolder = Join-Path $PSScriptRoot 'CreateForms'
-$Global:editFormsFolder = Join-Path $PSScriptRoot 'EditForms'
-$Global:otherFormsFolder = Join-Path $PSScriptRoot 'OtherForms'
+if($psISE) { $rootFolder = (Split-Path $psISE.CurrentFile.FullPath -Parent) }
+else { $rootFolder = $PSScriptRoot }
+$Global:resourcesFolder = Join-Path $rootFolder 'Resources'
+$Global:launchersFolder = Join-Path $rootFolder 'Launchers'
+$Global:createFormsFolder = Join-Path $rootFolder 'CreateForms'
+$Global:editFormsFolder = Join-Path $rootFolder 'EditForms'
+$Global:otherFormsFolder = Join-Path $rootFolder 'OtherForms'
 $Global:resources = . (Join-Path $resourcesFolder 'AdminForms.resources.ps1')
+$Global:credentials = [System.Management.Automation.PSCredential]::Empty #This is to allow for credential use in the form
 
 #region Functions
 Function Global:Add-UserToGroups {
@@ -486,22 +488,22 @@ Function Global:Update-TreeViewMembers () {
     Switch($ObjectType) {
         'User' {
             if($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                Get-ADUser -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC | ForEach-Object {
+                Get-ADUser -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC | Sort-Object Name | ForEach-Object {
                     Add-Node -parentNode $TreeView -nodeName $_.DistinguishedName -nodeText $_.Name
                 }
             } else {
-                Get-ADUser -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC -Credential $credentials | ForEach-Object {
+                Get-ADUser -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC | Sort-Object Name -Credential $credentials | ForEach-Object {
                     Add-Node -parentNode $TreeView -nodeName $_.DistinguishedName -nodeText $_.Name
                 }
             }
         }
         'Group' {
             if($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                Get-ADGroup -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC | ForEach-Object {
+                Get-ADGroup -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC | Sort-Object Name | ForEach-Object {
                     Add-Node -parentNode $TreeView -nodeName $_.DistinguishedName -nodeText $_.Name
                 }
             } else {
-                Get-ADGroup -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC -Credential $credentials | ForEach-Object {
+                Get-ADGroup -LDAPFilter $Filter -SearchBase $SearchBase -Server $DC | Sort-Object Name -Credential $credentials | ForEach-Object {
                     Add-Node -parentNode $TreeView -nodeName $_.DistinguishedName -nodeText $_.Name
                 }
             }
@@ -596,7 +598,7 @@ try{
     #Prompt the user to install RSAT
     if([System.Windows.Forms.MessageBox]::Show("You are missing the Active Directory Module. Would you like to install it now?","Missing RSAT Tools!","YesNo") -eq 'Yes') {
         try {
-            Start-Process -FilePath powershell.exe -ArgumentList "-file $(Join-Path $PSScriptRoot 'Install-RSAT.ps1')" -Verb RunAs -Wait
+            Start-Process -FilePath powershell.exe -ArgumentList "-file $(Join-Path $resourcesFolder 'Install-RSAT.ps1')" -Wait
             Import-Module ActiveDirectory -Global -ErrorAction Stop
         } catch {
             [System.Windows.Forms.MessageBox]::Show("Failed to install RSAT tools. Please manually install before running again.","RSAT Error!")
@@ -659,7 +661,6 @@ $Global:PayPlans = @(
     'GS'
     'GG'
     '99'
-    'MW'
     'NH'
     'ND'
     'ES'
@@ -859,7 +860,7 @@ if ($NOSOverride) {
     if($Beta) {
         Check-ScriptHash -Beta
     } else {
-        Check-ScriptHash
+        #Check-ScriptHash
     }
     
     $Global:Domain = Get-ADDomain #No need to do special filtering since base admin will be on same network
@@ -873,7 +874,7 @@ if ($NOSOverride) {
     if($Beta) {
         Update-AdminScripts -Beta
     } else {
-        Update-AdminScripts
+        #Update-AdminScripts
     }
 
     #Show BaseLauncher

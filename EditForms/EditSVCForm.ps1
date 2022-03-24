@@ -279,12 +279,11 @@ $editButton_Click = {
 
         #Hash Table of mandatory Attributes
         $updatedAttributes = @{
-            accountNotDelegated = $true
             description = $descriptionTextbox.Text
             displayName = $nameTextbox.Text.ToUpper()
             employeeType = 'S'
             extensionAttribute3 = 'SVC'
-            extentionAttribute8 = $CRQTextbox.Text.ToUpper()
+            extensionAttribute8 = $CRQTextbox.Text.ToUpper()
             extensionAttribute13 = $emailTextbox.Text
             l = $baseNameCombobox.Text
             o = $unitComboBox.Text.ToUpper()
@@ -297,12 +296,14 @@ $editButton_Click = {
             #Attempt to edit the account
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
                 $newSVCInfo = Set-ADUser -Identity $script:SVCInfo.SamAccountName `
+                    -AccountNotDelegated $true `
                     -Add $updatedAttributes `
                     -Replace $updatedAttributes `
                     -Server $DC `
                     -PassThru
             } else {
                 $newSVCInfo = Set-ADUser -Identity $script:SVCInfo.SamAccountName `
+                    -AccountNotDelegated $true `
                     -Add $updatedAttributes `
                     -Replace $updatedAttributes `
                     -Server $DC `

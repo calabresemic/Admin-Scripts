@@ -16,7 +16,7 @@
   Log file stored in %LocalAppData%\EditAdminForm.log
   Compliant accounts :)
 .NOTES
-  Version:        1.1
+  Version:        1.0
   Author:         Michael Calabrese
   Creation Date:  1/18/2022
   Purpose/Change: Initial script development
@@ -28,9 +28,6 @@
 .EXAMPLE
   If running for a NOS/COS admin
   .\EditAdminForm.ps1 -NOSOverride
-
-.CHANGELOG
-  Fixed the way the form is populated.
 #>
 
 Param (
@@ -55,11 +52,11 @@ Function Populate-Form {
         if([string]::IsNullOrEmpty($userAccount.Surname)) { $lastNameTextbox.Text = $adminAccount.Surname }
         else { $lastNameTextbox.Text = $userAccount.Surname.Trim() }
 
-        if([string]::IsNullOrEmpty($userAccount.GivenName)) { $lastNameTextbox.Text = $adminAccount.GivenName }
-        else { $lastNameTextbox.Text = $userAccount.GivenName.Trim() }
+        if([string]::IsNullOrEmpty($userAccount.GivenName)) { $firstNameTextbox.Text = $adminAccount.GivenName }
+        else { $firstNameTextbox.Text = $userAccount.GivenName.Trim() }
 
-        if([string]::IsNullOrEmpty($userAccount.Initials)) { $firstNameTextbox.Text = $adminAccount.Initials }
-        else { $firstNameTextbox.Text = $userAccount.Initials.Trim() }
+        if([string]::IsNullOrEmpty($userAccount.Initials)) { $initialTextbox.Text = $adminAccount.Initials }
+        else { $initialTextbox.Text = $userAccount.Initials.Trim() }
 
         if([string]::IsNullOrEmpty($userAccount.EmployeeID)) { $edipiTextbox.Text = $adminAccount.EmployeeID }
         else { $edipiTextbox.Text = $userAccount.EmployeeID.Trim() }
@@ -76,8 +73,8 @@ Function Populate-Form {
         if([string]::IsNullOrEmpty($userAccount.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($adminAccount.EmployeeType) }
         else { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($userAccount.EmployeeType.Trim()) }
 
-        if([string]::IsNullOrEmpty($userAccount.Title)) { $titleTextbox.Text = $adminAccount.Title }
-        else { $titleTextbox.Text = $userAccount.Title.Trim() }
+        if([string]::IsNullOrEmpty($userAccount.personalTitle)) { $titleTextbox.Text = $adminAccount.personalTitle }
+        else { $titleTextbox.Text = $userAccount.personalTitle.Trim() }
 
         if([string]::IsNullOrEmpty($userAccount.payPlan)) { $payPlanCombobox.SelectedItem = $adminAccount.payPlan }
         else { $payPlanCombobox.SelectedItem = $userAccount.payPlan.Trim() }
@@ -113,7 +110,7 @@ Function Populate-Form {
         if(![string]::IsNullOrEmpty($adminAccount.extensionAttribute4)) { $citizenshipTextbox.Text = $adminAccount.extensionAttribute4.Trim() }
         if(![string]::IsNullOrEmpty($adminAccount.description)) { $descriptionTextBox.Text = $adminAccount.description.Trim() }
         if(![string]::IsNullOrEmpty($adminAccount.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($adminAccount.EmployeeType.Trim()) }
-        if(![string]::IsNullOrEmpty($adminAccount.Title)) { $titleTextbox.Text = $adminAccount.Title.Trim() }
+        if(![string]::IsNullOrEmpty($adminAccount.personalTitle)) { $titleTextbox.Text = $adminAccount.personalTitle.Trim() }
         if(![string]::IsNullOrEmpty($adminAccount.payPlan)) { $payPlanCombobox.SelectedItem = $adminAccount.payPlan.Trim() }
         if(![string]::IsNullOrEmpty($adminAccount.payGrade)) { $payGradeCombobox.SelectedItem = $adminAccount.payGrade.Trim() }
         if(![string]::IsNullOrEmpty($adminAccount.company)) { $branchCombobox.SelectedItem = $adminAccount.company.Trim() }
@@ -122,7 +119,6 @@ Function Populate-Form {
         if(![string]::IsNullOrEmpty($adminAccount.o)) { $unitComboBox.Text = $adminAccount.o.Trim() }
         if(![string]::IsNullOrEmpty($adminAccount.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $adminAccount.physicalDeliveryOfficeName.Trim() }
         if(![string]::IsNullOrEmpty($adminAccount.OfficePhone)) { $phoneTextbox.Text = $adminAccount.OfficePhone.Trim() }
-
     }
 
     #Try to capture the Admin Level code and populate the admin level combobox
@@ -218,11 +214,11 @@ Function Find-User {
                     [System.Environment]::NewLine + 'Office Symbol: ' + $userInfo.physicalDeliveryOfficeName +
                     [System.Environment]::NewLine + 'DSN: ' + $userInfo.officePhone
                 Show-BetterMessageBox -Message $Message -Title 'Update Administrator Account Properties' -Buttons OkOnly
-                Populate-Form -adminAccount $script:adminInfo -userAccount $userInfo
+                Populate-Form -adminAccount $script:adminInfo -userAccount $userInfo[0]
             }
             Default {
                 #Warn user that multiple matches found, populate form with admin account info
-                [System.Windows.Forms.MessageBox]::Show('Multiple users found for admin ' + $script:AdminInfo.CN + ': ' + [System.Environment]::NewLine +
+                [System.Windows.Forms.MessageBox]::Show('Multiple users found for admin ' + $script:AdminInfo.Name + ': ' + [System.Environment]::NewLine +
                     ($userInfo -join "`n"),"Too many users found!")
                 Populate-Form -adminAccount $script:adminInfo -userAccount $userInfo
             }
@@ -235,7 +231,7 @@ Function Find-User {
             Populate-Form -adminAccount $script:adminInfo
         } else {
             #Something else fails while searching for user, try to continue but warn the user
-            [System.Windows.Forms.MessageBox]::Show('Searching for user matching ' + $script:AdminInfo.CN + " failed with the following error: " + $_.exception.message,"Error Occurred!")
+            [System.Windows.Forms.MessageBox]::Show('Searching for user matching ' + $script:AdminInfo.Name + " failed with the following error: " + $_.exception.message,"Error Occurred!")
             Write-Log -Message ($_ | Out-String) -Type Error -LogName EditAdminForm
             Populate-Form -adminAccount $script:adminInfo
         }
@@ -279,7 +275,7 @@ $form_Load = {
             if($AdminInfo.count -ne 1) {
                 throw "No Account Found"
             } else {
-                Populate-Form $AdminInfo
+                Populate-Form -adminAccount $AdminInfo
             }
             
         } catch {
@@ -315,11 +311,11 @@ $searchButton_Click = {
     }
 
     if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object {
+        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC | Select-Object Name,DistinguishedName | % {
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     } else {
-        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object {
+        Get-ADUser -LDAPFilter $filter -SearchBase $searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | % {
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     }
@@ -484,7 +480,6 @@ $editButton_Click = {
         
         #Hash Table of mandatory Attributes
         $updatedAttributes = @{
-            c = $countryTextbox.Text.ToUpper()
             company = $branchCombobox.Text
             department = $MAJCOMCombobox.SelectedItem.Acronym
             description = $descriptionTextbox.Text
@@ -492,40 +487,33 @@ $editButton_Click = {
             employeeID = $edipiTextbox.Text
             employeeType = 'Z'
             extensionAttribute4 = $citizenshipTextbox.Text.ToUpper()
-            gigID = $edipiTextbox.Text + $employeeTypeCombobox.SelectedItem.PCC
             givenName = $firstNameTextbox.Text.ToUpper()
             l = $baseNameCombobox.Text
-            mail = $emailTextbox.Text
             o = $unitComboBox.Text.ToUpper()
             physicalDeliveryOfficeName = $officeSymbolTextbox.Text.ToUpper()
             payGrade = $payGradeCombobox.Text
             payPlan = $payPlanCombobox.Text
             personalTitle = $titleTextbox.Text.ToUpper()
-            postalCode = $zipTextbox.Text
-            samAccountName = $edipiTextbox.Text + $employeeTypeCombobox.SelectedItem.PCC  + '.AD' + $adminLevelCodeCombobox.SelectedItem.adminTypeCode
-            SmartcardLogonRequired = $true
+            samAccountName = $edipiTextbox.Text + '.AD' + $adminLevelCodeCombobox.SelectedItem.adminTypeCode
             sn = $lastNameTextbox.Text.ToUpper()
             telephoneNumber = $phoneTextbox.Text
         }
 
-        #Evaluate suffix to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($suffixCombobox.Text)){
+        #Initiate Array of attributes to clear
+        $clearAttributes=@()
+
+         #Evaluate suffix to see if it's populated, if it is, add to updatedAttributes
+        if ([string]::IsNullOrEmpty($suffixCombobox.Text)){
+            $clearAttributes += 'generationQualifier'
+        } else {
             $updatedAttributes += @{generationQualifier = $suffixCombobox.Text}
         }
 
         #Evaluate initials to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($initialTextbox.Text)){
+        if ([string]::IsNullOrEmpty($initialTextbox.Text)){
+            $clearAttributes += 'initials'
+        } else {
             $updatedAttributes += @{initials = $initialTextbox.Text.ToUpper()}
-        }
-
-        #Evaluate state to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($stateTextbox.Text)){
-            $updatedAttributes += @{st = $stateTextbox.Text.ToUpper()}
-        }
-
-        #Evaluate street to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($streetTextbox.Text)){
-            $updatedAttributes += @{streetAddress = $streetTextbox.Text}
         }
        
         #Evaluate account expiration
@@ -541,14 +529,18 @@ $editButton_Click = {
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
                 $newAdminInfo = Set-ADUser -Identity $script:adminInfo.SamAccountName `
                     -AccountExpirationDate $accountExpirationSetter `
+                    -AccountNotDelegated $true `
                     -Add $updatedAttributes `
+                    -Clear $clearAttributes `
                     -Replace $updatedAttributes `
                     -Server $DC `
                     -PassThru
             } else {
                 $newAdminInfo = Set-ADUser -Identity $script:adminInfo.SamAccountName `
                     -AccountExpirationDate $accountExpirationSetter `
+                    -AccountNotDelegated $true `
                     -Add $updatedAttributes `
+                    -Clear $clearAttributes `
                     -Replace $updatedAttributes `
                     -Server $DC `
                     -PassThru `
@@ -565,7 +557,7 @@ $editButton_Click = {
             }
 
             #If nothing errors then show a success message
-            [System.Windows.Forms.MessageBox]::Show("Successfully edited:" + $newAdminInfo.DisplayName,'Account Edited Successfully!')
+            [System.Windows.Forms.MessageBox]::Show("Successfully edited: " + $newAdminInfo.Name,'Account Edited Successfully!')
             $EditAdminForm.Close()
         } catch {
             #Something errored. Let the user know.

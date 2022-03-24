@@ -53,7 +53,8 @@ $components = (New-Object -TypeName System.ComponentModel.Container)
 [System.Windows.Forms.TreeNode]$treeNode21 = (New-Object -TypeName System.Windows.Forms.TreeNode -ArgumentList @([System.String]'PACAF.DS.AF.SMIL.MIL',[System.Windows.Forms.TreeNode[]]@($treeNode10,$treeNode11,$treeNode12,$treeNode13,$treeNode14,$treeNode15,$treeNode16,$treeNode17,$treeNode18,$treeNode19,$treeNode20)))
 [System.Windows.Forms.TreeNode]$treeNode22 = (New-Object -TypeName System.Windows.Forms.TreeNode -ArgumentList @([System.String]'USAFE.USAFEROOT.DS.AF.SMIL.MIL'))
 [System.Windows.Forms.TreeNode]$treeNode23 = (New-Object -TypeName System.Windows.Forms.TreeNode -ArgumentList @([System.String]'USAFEROOT.DS.AF.SMIL.MIL',[System.Windows.Forms.TreeNode[]]@($treeNode22)))
-[System.Windows.Forms.TreeNode]$treeNode24 = (New-Object -TypeName System.Windows.Forms.TreeNode -ArgumentList @([System.String]'Home.Domain'))
+[System.Windows.Forms.TreeNode]$treeNode24 = (New-Object -TypeName System.Windows.Forms.TreeNode -ArgumentList @([System.String]'AREA42.AFNOAPPS.US.AF.SMIL.MIL'))
+[System.Windows.Forms.TreeNode]$treeNode25 = (New-Object -TypeName System.Windows.Forms.TreeNode -ArgumentList @([System.String]'AFNOAPPS.US.AF.SMIL.MIL',[System.Windows.Forms.TreeNode[]]@($treeNode24)))
 $welcomePanel = (New-Object -TypeName System.Windows.Forms.TableLayoutPanel)
 $forestSelector = (New-Object -TypeName System.Windows.Forms.TreeView)
 $welcomePanel3 = (New-Object -TypeName System.Windows.Forms.Panel)
@@ -185,10 +186,13 @@ $treeNode22.Text = [System.String]'USAFE.USAFEROOT.DS.AF.SMIL.MIL'
 $treeNode23.Name = [System.String]'USAFEROOT.DS.AF.SMIL.MIL'
 $treeNode23.Tag = [System.String]'Forest'
 $treeNode23.Text = [System.String]'USAFEROOT.DS.AF.SMIL.MIL'
-$treeNode24.Name = [System.String]'Home.Domain'
-$treeNode24.Tag = [System.String]'FLATDOMAIN'
-$treeNode24.Text = [System.String]'Home.Domain'
-$forestSelector.Nodes.AddRange([System.Windows.Forms.TreeNode[]]@($treeNode2,$treeNode4,$treeNode5,$treeNode7,$treeNode9,$treeNode21,$treeNode23,$treeNode24))
+$treeNode24.Name = [System.String]'AREA42.AFNOAPPS.US.AF.SMIL.MIL'
+$treeNode24.Tag = [System.String]'DOMAIN'
+$treeNode24.Text = [System.String]'AREA42.AFNOAPPS.US.AF.SMIL.MIL'
+$treeNode25.Name = [System.String]'AFNOAPPS.US.AF.SMIL.MIL'
+$treeNode25.Tag = [System.String]'Forest'
+$treeNode25.Text = [System.String]'AFNOAPPS.US.AF.SMIL.MIL'
+$forestSelector.Nodes.AddRange([System.Windows.Forms.TreeNode[]]@($treeNode2,$treeNode4,$treeNode5,$treeNode7,$treeNode9,$treeNode21,$treeNode23,$treeNode25))
 $forestSelector.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]569,[System.Int32]313))
 $forestSelector.TabIndex = [System.Int32]1
 $forestSelector.add_BeforeSelect($forestSelector_BeforeSelect)
@@ -513,6 +517,7 @@ Add-Member -InputObject $NOSLauncher -Name welcomePanel2 -Value $welcomePanel2 -
 Add-Member -InputObject $NOSLauncher -Name domainInfoBackground -Value $domainInfoBackground -MemberType NoteProperty
 Add-Member -InputObject $NOSLauncher -Name domainInfoTextbox -Value $domainInfoTextbox -MemberType NoteProperty
 Add-Member -InputObject $NOSLauncher -Name welcomeLabel -Value $welcomeLabel -MemberType NoteProperty
+Add-Member -InputObject $NOSLauncher -Name helpButton -Value $helpButton -MemberType NoteProperty
 Add-Member -InputObject $NOSLauncher -Name button1 -Value $button1 -MemberType NoteProperty
 }
 . InitializeComponent

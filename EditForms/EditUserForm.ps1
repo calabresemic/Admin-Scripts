@@ -43,29 +43,29 @@ Function Populate-Form {
         [Microsoft.ActiveDirectory.Management.ADAccount]$Account
     )
 
-    if(![string]::IsNullOrEmpty($adminAccount.Surname)) { $lastNameTextbox.Text = $Account.Surname.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.GivenName)) { $firstNameTextbox.Text = $Account.GivenName.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.Initials)) { $initialTextbox.Text = $Account.Initials.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.EmployeeID)) { $edipiTextbox.Text = $Account.EmployeeID.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.generationQualifier)) { $suffixCombobox.SelectedItem = $Account.generationQualifier.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.extensionAttribute4)) { $citizenshipTextbox.Text = $Account.extensionAttribute4.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.description)) { $descriptionTextBox.Text = $Account.description.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType.Trim()) }
-    if(![string]::IsNullOrEmpty($adminAccount.Title)) { $titleTextbox.Text = $Account.Title.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.payPlan)) { $payPlanCombobox.SelectedItem = $Account.payPlan.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.payGrade)) { $payGradeCombobox.SelectedItem = $Account.payGrade.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.company)) { $branchCombobox.SelectedItem = $Account.company.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.department)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department.Trim()) }
-    if(![string]::IsNullOrEmpty($adminAccount.l)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l.Trim()) }
-    if(![string]::IsNullOrEmpty($adminAccount.o)) { $unitComboBox.Text = $Account.o.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.OfficePhone)) { $phoneTextbox.Text = $Account.OfficePhone.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.mail)) { $emailTextbox.Text = $Account.mail.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.streetAddress)) { $streetTextbox.Text = $Account.streetAddress.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.l)) { $cityTextbox.Text = $Account.l.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.state)) { $stateTextbox.Text = $Account.state.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.postalCode)) { $zipTextbox.Text = $Account.postalCode.Trim() }
-    if(![string]::IsNullOrEmpty($adminAccount.country)) { $countryTextbox.Text = $Account.country.Trim() }
+    if(![string]::IsNullOrEmpty($Account.Surname)) { $lastNameTextbox.Text = $Account.Surname.Trim() }
+    if(![string]::IsNullOrEmpty($Account.GivenName)) { $firstNameTextbox.Text = $Account.GivenName.Trim() }
+    if(![string]::IsNullOrEmpty($Account.Initials)) { $initialTextbox.Text = $Account.Initials.Trim() }
+    if(![string]::IsNullOrEmpty($Account.EmployeeID)) { $edipiTextbox.Text = $Account.EmployeeID.Trim() }
+    if(![string]::IsNullOrEmpty($Account.generationQualifier)) { $suffixCombobox.SelectedItem = $Account.generationQualifier.Trim() }
+    if(![string]::IsNullOrEmpty($Account.extensionAttribute4)) { $citizenshipTextbox.Text = $Account.extensionAttribute4.Trim() }
+    if(![string]::IsNullOrEmpty($Account.description)) { $descriptionTextBox.Text = $Account.description.Trim() }
+    if(![string]::IsNullOrEmpty($Account.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType.Trim()) }
+    if(![string]::IsNullOrEmpty($Account.personalTitle)) { $titleTextbox.Text = $Account.personalTitle.Trim() }
+    if(![string]::IsNullOrEmpty($Account.payPlan)) { $payPlanCombobox.SelectedItem = $Account.payPlan.Trim() }
+    if(![string]::IsNullOrEmpty($Account.payGrade)) { $payGradeCombobox.SelectedItem = $Account.payGrade.Trim() }
+    if(![string]::IsNullOrEmpty($Account.company)) { $branchCombobox.SelectedItem = $Account.company.Trim() }
+    if(![string]::IsNullOrEmpty($Account.department)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department.Trim()) }
+    if(![string]::IsNullOrEmpty($Account.l)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l.Trim()) }
+    if(![string]::IsNullOrEmpty($Account.o)) { $unitComboBox.Text = $Account.o.Trim() }
+    if(![string]::IsNullOrEmpty($Account.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName.Trim() }
+    if(![string]::IsNullOrEmpty($Account.OfficePhone)) { $phoneTextbox.Text = $Account.OfficePhone.Trim() }
+    if(![string]::IsNullOrEmpty($Account.mail)) { $emailTextbox.Text = $Account.mail.Trim() }
+    if(![string]::IsNullOrEmpty($Account.streetAddress)) { $streetTextbox.Text = $Account.streetAddress.Trim() }
+    if(![string]::IsNullOrEmpty($Account.l)) { $cityTextbox.Text = $Account.l.Trim() }
+    if(![string]::IsNullOrEmpty($Account.state)) { $stateTextbox.Text = $Account.state.Trim() }
+    if(![string]::IsNullOrEmpty($Account.postalCode)) { $zipTextbox.Text = $Account.postalCode.Trim() }
+    if(![string]::IsNullOrEmpty($Account.country)) { $countryTextbox.Text = $Account.country.Trim() }
 
     #If account has expiration date. Check the box and set the date.
     if (![string]::IsNullOrEmpty($Account.AccountExpirationDate)) {
@@ -328,7 +328,6 @@ $searchButton_Click = {
 $searchStringTextbox_KeyDown = {
     if ($_.KeyCode -eq 'Return') {
         Invoke-Command $searchButton_Click #Trigger the searchButton_Click
-        $_.SuppressKeyPress = $true
     }
 }
 
@@ -507,36 +506,48 @@ $editButton_Click = {
             personalTitle = $titleTextbox.Text.ToUpper()
             postalCode = $zipTextbox.Text
             samAccountName = $edipiTextbox.Text + '.' + $employeeTypeCombobox.SelectedItem.PCC
-            SmartcardLogonRequired = $true
             sn = $lastNameTextbox.Text.ToUpper()
             telephoneNumber = $phoneTextbox.Text
         }
 
+        #Initiate Array of attributes to clear
+        $clearAttributes=@()
+
+        #Evaluate Description
+        if([string]::IsNullOrEmpty($descriptionTextbox.Text)) {
+            $clearAttributes += 'Description'
+        } else {
+            $updatedAttributes += @{description = $descriptionTextbox.Text}
+        }
+
         #Evaluate suffix to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($suffixCombobox.Text)){
+        if ([string]::IsNullOrEmpty($suffixCombobox.Text)){
+            $clearAttributes += 'generationQualifier'
+        } else {
             $updatedAttributes += @{generationQualifier = $suffixCombobox.Text}
         }
 
         #Evaluate initials to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($initialTextbox.Text)){
+        if ([string]::IsNullOrEmpty($initialTextbox.Text)){
+            $clearAttributes += 'initials'
+        } else {
             $updatedAttributes += @{initials = $initialTextbox.Text.ToUpper()}
         }
 
         #Evaluate state to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($stateTextbox.Text)){
+        if ([string]::IsNullOrEmpty($stateTextbox.Text)){
+            $clearAttributes += 'st'
+        } else {
             $updatedAttributes += @{st = $stateTextbox.Text.ToUpper()}
         }
 
         #Evaluate street to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($streetTextbox.Text)){
-            $updatedAttributes += @{StreetAddress = $streetTextbox.Text}
+        if ([string]::IsNullOrEmpty($streetTextbox.Text)){
+            $clearAttributes += 'streetAddress'
+        } else {
+            $updatedAttributes += @{streetAddress = $streetTextbox.Text}
         }
 
-        #Evaluate description to see if it's populated, if it is, add to updatedAttributes
-        if (![string]::IsNullOrEmpty($descriptionTextbox.Text)){
-            $updatedAttributes += @{description = $descriptionTextbox.Text}
-        }
-       
         #Evaluate account expiration
         if ($accountExpirationCheckbox.Checked) {
             $accountExpirationSetter = $expirationDateTimePicker.Value
@@ -550,14 +561,18 @@ $editButton_Click = {
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
                 $newUserInfo = Set-ADUser -Identity $script:userInfo.SamAccountName `
                     -AccountExpirationDate $accountExpirationSetter `
+                    -SmartcardLogonRequired $true `
                     -Add $updatedAttributes `
+                    -Clear $clearAttributes `
                     -Replace $updatedAttributes `
                     -Server $DC `
                     -PassThru
             } else {
                 $newUserInfo = Set-ADUser -Identity $script:userInfo.SamAccountName `
                     -AccountExpirationDate $accountExpirationSetter `
+                    -SmartcardLogonRequired $true `
                     -Add $updatedAttributes `
+                    -Clear $clearAttributes `
                     -Replace $updatedAttributes `
                     -Server $DC `
                     -PassThru `
@@ -574,7 +589,7 @@ $editButton_Click = {
             }
 
             #If nothing errors then show a success message
-            [System.Windows.Forms.MessageBox]::Show("Successfully edited:" + $newUserInfo.displayName,'Account Edited Successfully!')
+            [System.Windows.Forms.MessageBox]::Show("Successfully edited: " + $newUserInfo.Name,'Account Edited Successfully!')
             $EditUserForm.Close()
         } catch {
             #Something errored. Let the user know.

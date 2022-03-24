@@ -1,5 +1,5 @@
 #requires -version 5
-#requires –Modules ActiveDirectory
+#requires -Modules ActiveDirectory
 <#
 .SYNOPSIS
   Form used to create computer accounts compliant with MPTO 00-33D-2001

@@ -34,42 +34,42 @@ Function Populate-ComplianceDGV ($DataGridView,[String]$reportType) {
 			'Admin' {
 				$searchbase = "OU=$userLocation,OU=Administrative Accounts,OU=Administration,$($Domain.DistinguishedName)"
 				$groupDN = "CN=$($Domain.Name)_NONCOMPLIANT_ADM,OU=_ESU Groups,OU=Administrative Groups,OU=Administration,$($Domain.DistinguishedName)"
-				Get-ADUser -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | % {
+				Get-ADUser -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | Sort-Object Name | ForEach-Object {
 					$DataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Edit')
 				}
 			}
 			'SVC' {
 				$searchbase = "OU=$userLocation,OU=Service Accounts,OU=Administration,$($Domain.DistinguishedName)"
 				$groupDN = "CN=$($Domain.Name)_NONCOMPLIANT_SVC,OU=_ESU Groups,OU=Administrative Groups,OU=Administration,$($Domain.DistinguishedName)"
-				Get-ADUser -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | % {
+				Get-ADUser -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | Sort-Object Name | ForEach-Object {
 					$DataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Edit')
 				}
 			}
 			'User' {
 				$searchbase = "OU=$userLocation Users,OU=$userLocation,OU=Bases,$($Domain.DistinguishedName)"
 				$groupDN = "CN=$($Domain.Name)_NONCOMPLIANT_USER,OU=_ESU Groups,OU=Administrative Groups,OU=Administration,$($Domain.DistinguishedName)"
-				Get-ADUser -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | % {
+				Get-ADUser -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | Sort-Object Name | ForEach-Object {
 					$DataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Edit')
 				}
 			}
 			'Computer' {
 				$searchbase = "OU=$userLocation Computers,OU=$userLocation,OU=Bases,$($Domain.DistinguishedName)"
 				$groupDN = "CN=$($Domain.Name)_NONCOMPLIANT_COMP,OU=_ESU Groups,OU=Administrative Groups,OU=Administration,$($Domain.DistinguishedName)"
-				Get-ADComputer -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | % {
+				Get-ADComputer -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | Sort-Object Name | ForEach-Object {
 					$DataGridView.Rows.Add($_.Name, $_.DistinguishedName)
 				}
 			}
 			'BaseGroup' {
 				$searchbase = "OU=$userLocation Security Groups,OU=$userLocation,OU=Bases,$($Domain.DistinguishedName)"
 				$groupDN = "CN=$($Domain.Name)_NONCOMPLIANT_GRP,OU=_ESU Groups,OU=Administrative Groups,OU=Administration,$($Domain.DistinguishedName)"
-				Get-ADGroup -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | % {
+				Get-ADGroup -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | Sort-Object Name | ForEach-Object {
 					$DataGridView.Rows.Add($_.Name, $_.DistinguishedName)
 				}
 			}
 			'AdminGroup' {
 				$searchbase = "OU=$userLocation,OU=Administrative Groups,OU=Administration,$($Domain.DistinguishedName)"
 				$groupDN = "CN=$($Domain.Name)_NONCOMPLIANT_GRP,OU=_ESU Groups,OU=Administrative Groups,OU=Administration,$($Domain.DistinguishedName)"
-				Get-ADGroup -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | % {
+				Get-ADGroup -LDAPFilter "(MemberOf=$groupDN)" -SearchBase $searchbase | Sort-Object Name | ForEach-Object {
 					$DataGridView.Rows.Add($_.Name, $_.DistinguishedName)
 				}
 			}

@@ -1038,7 +1038,7 @@ $payGradeCombobox.Dock = [System.Windows.Forms.DockStyle]::Top
 $payGradeCombobox.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
 $payGradeCombobox.FlatStyle = [System.Windows.Forms.FlatStyle]::Popup
 $payGradeCombobox.FormattingEnabled = $true
-$payGradeCombobox.Items.AddRange([System.Object[]]@([System.String]'0',[System.String]'1',[System.String]'2',[System.String]'3',[System.String]'4',[System.String]'5',[System.String]'6',[System.String]'7',[System.String]'8',[System.String]'9',[System.String]'10',[System.String]'11',[System.String]'12',[System.String]'13',[System.String]'14',[System.String]'15'))
+$payGradeCombobox.Items.AddRange([System.Object[]]@([System.String]'0',[System.String]'01',[System.String]'02',[System.String]'03',[System.String]'04',[System.String]'05',[System.String]'06',[System.String]'07',[System.String]'08',[System.String]'09',[System.String]'10',[System.String]'11',[System.String]'12',[System.String]'13',[System.String]'14',[System.String]'15'))
 $payGradeCombobox.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]0,[System.Int32]35))
 $payGradeCombobox.Name = [System.String]'payGradeCombobox'
 $payGradeCombobox.Size = (New-Object -TypeName System.Drawing.Size -ArgumentList @([System.Int32]251,[System.Int32]33))
@@ -1071,7 +1071,7 @@ $panel14.TabIndex = [System.Int32]8
 #payPlanCombobox
 #
 $payPlanCombobox.Dock = [System.Windows.Forms.DockStyle]::Top
-$payPlanCombobox.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDown
+$payPlanCombobox.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList
 $payPlanCombobox.FlatStyle = [System.Windows.Forms.FlatStyle]::Popup
 $payPlanCombobox.FormattingEnabled = $true
 $payPlanCombobox.Location = (New-Object -TypeName System.Drawing.Point -ArgumentList @([System.Int32]0,[System.Int32]35))
@@ -1211,13 +1211,13 @@ $groupBox1.add_Enter($groupBox1_Enter)
 #
 $tableLayoutPanel1.ColumnCount = [System.Int32]4
 $tableLayoutPanel1.ColumnStyles.Add((New-Object -TypeName System.Windows.Forms.ColumnStyle -ArgumentList @([System.Windows.Forms.SizeType]::Percent,[System.Single]16.66667)))
-$tableLayoutPanel1.ColumnStyles.Add((New-Object -TypeName System.Windows.Forms.ColumnStyle -ArgumentList @([System.Windows.Forms.SizeType]::Percent,[System.Single]33.22368)))
 $tableLayoutPanel1.ColumnStyles.Add((New-Object -TypeName System.Windows.Forms.ColumnStyle -ArgumentList @([System.Windows.Forms.SizeType]::Percent,[System.Single]25)))
+$tableLayoutPanel1.ColumnStyles.Add((New-Object -TypeName System.Windows.Forms.ColumnStyle -ArgumentList @([System.Windows.Forms.SizeType]::Percent,[System.Single]33.22368)))
 $tableLayoutPanel1.ColumnStyles.Add((New-Object -TypeName System.Windows.Forms.ColumnStyle -ArgumentList @([System.Windows.Forms.SizeType]::Percent,[System.Single]25)))
 $tableLayoutPanel1.Controls.Add($panel8,[System.Int32]0,[System.Int32]3)
 $tableLayoutPanel1.Controls.Add($panel7,[System.Int32]3,[System.Int32]2)
-$tableLayoutPanel1.Controls.Add($panel6,[System.Int32]2,[System.Int32]2)
-$tableLayoutPanel1.Controls.Add($panel5,[System.Int32]1,[System.Int32]2)
+$tableLayoutPanel1.Controls.Add($panel5,[System.Int32]2,[System.Int32]2)
+$tableLayoutPanel1.Controls.Add($panel6,[System.Int32]1,[System.Int32]2)
 $tableLayoutPanel1.Controls.Add($panel4,[System.Int32]0,[System.Int32]2)
 $tableLayoutPanel1.Controls.Add($panel3,[System.Int32]0,[System.Int32]1)
 $tableLayoutPanel1.Controls.Add($panel2,[System.Int32]0,[System.Int32]0)
@@ -1629,6 +1629,7 @@ Add-Member -InputObject $createUserForm -Name label20 -Value $label20 -MemberTyp
 Add-Member -InputObject $createUserForm -Name label19 -Value $label19 -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name addGroupsCheckbox -Value $addGroupsCheckbox -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name panel1 -Value $panel1 -MemberType NoteProperty
+Add-Member -InputObject $createUserForm -Name cancelButton -Value $cancelButton -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name createButton -Value $createButton -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name pathTreeView -Value $pathTreeView -MemberType NoteProperty
 Add-Member -InputObject $createUserForm -Name MAJCOMCombobox -Value $MAJCOMCombobox -MemberType NoteProperty

@@ -254,6 +254,7 @@ Add-Member -InputObject $BaseLauncher -Name AdminEditButton -Value $AdminEditBut
 Add-Member -InputObject $BaseLauncher -Name SVCEditButton -Value $SVCEditButton -MemberType NoteProperty
 Add-Member -InputObject $BaseLauncher -Name baseSelectorCombobox -Value $baseSelectorCombobox -MemberType NoteProperty
 Add-Member -InputObject $BaseLauncher -Name reportButton -Value $reportButton -MemberType NoteProperty
+Add-Member -InputObject $BaseLauncher -Name helpButton -Value $helpButton -MemberType NoteProperty
 Add-Member -InputObject $BaseLauncher -Name button1 -Value $button1 -MemberType NoteProperty
 }
 . InitializeComponent

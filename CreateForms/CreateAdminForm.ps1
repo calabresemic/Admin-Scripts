@@ -1,5 +1,5 @@
 #requires -version 5
-#requires –Modules ActiveDirectory
+#requires -Modules ActiveDirectory
 <#
 .SYNOPSIS
   Form used to create admin accounts compliant with MPTO 00-33D-2001
@@ -41,21 +41,22 @@ Function Populate-Form {
     )
 
     if(![string]::IsNullOrEmpty($account.Surname)) { $lastNameTextbox.Text = $Account.Surname.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $firstNameTextbox.Text = $Account.GivenName.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $initialTextbox.Text = $Account.Initials.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $edipiTextbox.Text = $Account.EmployeeID.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $suffixCombobox.SelectedItem = $Account.generationQualifier.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $citizenshipTextbox.Text = $Account.extensionAttribute4.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType.Trim()) }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $titleTextbox.Text = $Account.Title.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $payPlanCombobox.SelectedItem = $Account.payPlan.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $payGradeCombobox.SelectedItem = $Account.payGrade.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $branchCombobox.SelectedItem = $Account.company.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department.Trim()) }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l.Trim()) }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $unitComboBox.Text = $Account.o.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName.Trim() }
-    if(![string]::IsNullOrEmpty($account.Surname)) { $phoneTextbox.Text = $Account.OfficePhone.Trim() }
+    if(![string]::IsNullOrEmpty($account.GivenName)) { $firstNameTextbox.Text = $Account.GivenName.Trim() }
+    if(![string]::IsNullOrEmpty($account.Initials)) { $initialTextbox.Text = $Account.Initials.Trim() }
+    if(![string]::IsNullOrEmpty($account.EmployeeID)) { $edipiTextbox.Text = $Account.EmployeeID.Trim() }
+    if(![string]::IsNullOrEmpty($account.generationQualifier)) { $suffixCombobox.SelectedItem = $Account.generationQualifier.Trim() }
+    if(![string]::IsNullOrEmpty($account.extensionAttribute4)) { $citizenshipTextbox.Text = $Account.extensionAttribute4.Trim() }
+    if(![string]::IsNullOrEmpty($account.description)) { $descriptionTextbox.Text = $Account.description.Trim() }
+    if(![string]::IsNullOrEmpty($account.EmployeeType)) { $employeeTypeCombobox.SelectedIndex = $employeeTypeCombobox.Items.PCC.IndexOf($Account.EmployeeType.Trim()) }
+    if(![string]::IsNullOrEmpty($account.personalTitle)) { $titleTextbox.Text = $Account.personalTitle.Trim() }
+    if(![string]::IsNullOrEmpty($account.payPlan)) { $payPlanCombobox.SelectedItem = $Account.payPlan.Trim() }
+    if(![string]::IsNullOrEmpty($account.payGrade)) { $payGradeCombobox.SelectedItem = $Account.payGrade.Trim() }
+    if(![string]::IsNullOrEmpty($account.company)) { $branchCombobox.SelectedItem = $Account.company.Trim() }
+    if(![string]::IsNullOrEmpty($account.department)) { $MAJCOMCombobox.SelectedIndex = $MAJCOMCombobox.Items.Acronym.IndexOf($Account.department.Trim()) }
+    if(![string]::IsNullOrEmpty($account.l)) { $baseNameCombobox.SelectedIndex = $baseNameCombobox.Items.Name.IndexOf($Account.l.Trim()) }
+    if(![string]::IsNullOrEmpty($account.o)) { $unitComboBox.Text = $Account.o.Trim() }
+    if(![string]::IsNullOrEmpty($account.physicalDeliveryOfficeName)) { $officeSymbolTextbox.Text = $Account.physicalDeliveryOfficeName.Trim() }
+    if(![string]::IsNullOrEmpty($account.OfficePhone)) { $phoneTextbox.Text = $Account.OfficePhone.Trim() }
 
     Invoke-Command $noUserButton_Click #Hide the searcher and show the rest of the form
 }
@@ -155,11 +156,11 @@ $searchButton_Click = {
     }
 
     if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object {
+        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC | Select-Object Name,DistinguishedName | ForEach-Object {
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     } else {
-        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | Sort-Object Name | ForEach-Object{
+        Get-ADUser -LDAPFilter $filter -SearchBase $script:searchBase -Server $DC -Credential $credentials | Select-Object Name,DistinguishedName | ForEach-Object{
             $resultDataGridView.Rows.Add($_.Name, $_.DistinguishedName, 'Select')
         }
     }
@@ -192,9 +193,9 @@ $resultDataGridView_CellContentClick = {
 		$SelectedUser=$resultDataGridView[1, $_.RowIndex].Value
 
         if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-            $userInfo = Get-ADUser -Identity $SelectedUser -Properties *  -Server $DC
+            $userInfo = Get-ADUser -Identity $SelectedUser -Properties * -Server $DC
         } else {
-            $userInfo = Get-ADUser -Identity $SelectedUser -Properties *  -Server $DC -Credential $credentials
+            $userInfo = Get-ADUser -Identity $SelectedUser -Properties * -Server $DC -Credential $credentials
         }
         Populate-Form -Account $userInfo
 	}
@@ -203,7 +204,7 @@ $resultDataGridView_CellContentClick = {
 #This autogenerates the admin's UPN based on the input fields and the current 90 Meter constraints.
 $logonNameChanged = {
     $logonNameTextbox.Text = $edipiTextbox.Text +
-        $employeeTypeCombobox.SelectedItem.PCC +
+        #$employeeTypeCombobox.SelectedItem.PCC +
         '.ADM' +
         $adminLevelCodeCombobox.SelectedItem.adminTypeCode +
         '@smil.mil'
@@ -251,6 +252,7 @@ $createButton_Click = {
             extensionAttribute4 = $citizenshipTextbox.Text.ToUpper()
             payGrade = $payGradeCombobox.Text
             payPlan = $payPlanCombobox.Text
+            personalTitle = $titleTextbox.Text.ToUpper()
         }
 
         #Evaluate suffix to see if it's populated, if it is add to otherAttributes
@@ -292,10 +294,9 @@ $createButton_Click = {
             employeeID = $edipiTextbox.Text
             displayName = $displayName
             userPrincipalName = $logonNameTextbox.Text
-            samAccountName = $edipiTextbox.Text + $employeeTypeCombobox.SelectedItem.PCC  + '.AD' + $adminLevelCodeCombobox.SelectedItem.adminTypeCode
+            samAccountName = $edipiTextbox.Text + '.AD' + $adminLevelCodeCombobox.SelectedItem.adminTypeCode
             company = $branchCombobox.Text
             department = $MAJCOMCombobox.SelectedItem.Acronym
-            title = $titleTextbox.Text.ToUpper()
             city = $baseNameCombobox.Text
             office = $officeSymbolTextbox.Text.ToUpper()
             organization = $unitComboBox.Text.ToUpper()
@@ -308,23 +309,19 @@ $createButton_Click = {
             otherAttributes = $otherAttributes #Add the list of extra attributes that aren't native
         }
 
+        #If expiration date specified, set on the account
+        if ($accountExpirationCheckbox.Checked) {
+            $adminObject += @{AccountExpirationDate = $expirationDateTimePicker.Value}
+        }
+
         try {
             #try to create the admin and enable
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                New-ADUser @adminObject -Server $DC
+                $NewAdmin = New-ADUser @adminObject -Server $DC -PassThru
                 Set-ADUser $adminObject.samAccountName -Enabled $true -Server $DC
             } else {
-                New-ADUser @adminObject -Server $DC -Credential $credentials
+                $NewAdmin = New-ADUser @adminObject -Server $DC -PassThru -Credential $credentials
                 Set-ADUser $adminObject.samAccountName -Enabled $true -Server $DC -Credential $credentials
-            }
-
-            #If expiration date specified, set on the account
-            if ($accountExpirationCheckbox.Checked) {
-                if($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                    Set-ADUser -Identity $adminObject.samAccountName -AccountExpirationDate $expirationDateTimePicker.Value -Server $DC
-                } else {
-                    Set-ADUser -Identity $adminObject.samAccountName -AccountExpirationDate $expirationDateTimePicker.Value -Server $DC -Credential $credentials
-                }
             }
 
             #If nothing errors then show a success message
@@ -343,7 +340,7 @@ $createButton_Click = {
             #If groups are requested, try to add the user to the groups
             if ($addGroupsCheckbox.Checked) {
                 [Array]$selectedgroups = $groupTreeView.Nodes | Where-Object {$_.Checked -eq $true}
-                Add-UserToGroups -selectedgroups $selectedgroups -User $adminObject
+                Add-UserToGroups -selectedgroups $selectedgroups -User $NewAdmin
             }
 
             $createAdminForm.Close()

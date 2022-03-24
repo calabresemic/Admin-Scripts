@@ -117,6 +117,7 @@ $createButton_Click = {
             extensionAttribute4 = $citizenshipTextbox.Text.ToUpper()
             payGrade = $payGradeCombobox.Text
             payPlan = $payPlanCombobox.Text
+            personalTitle = $titleTextbox.Text.ToUpper()
         }
 
         #Evaluate suffix to see if it's populated, if it is add to otherAttributes
@@ -159,7 +160,6 @@ $createButton_Click = {
             samAccountName = $edipiTextbox.Text + '.' + $employeeTypeCombobox.SelectedItem.PCC
             company = $branchCombobox.Text
             department = $MAJCOMCombobox.SelectedItem.Acronym
-            title = $titleTextbox.Text.ToUpper()
             city = $baseNameCombobox.Text
             office = $officeSymbolTextbox.Text.ToUpper()
             organization = $unitComboBox.Text.ToUpper()
@@ -197,10 +197,10 @@ $createButton_Click = {
         try {
             #try to create the user and enable
             if ($credentials -eq [System.Management.Automation.PSCredential]::Empty) {
-                New-ADUser @userObject -Server $DC
+                $newUser = New-ADUser @userObject -Server $DC -PassThru
                 Set-ADUser $userObject.samAccountName -Enabled $true -Server $DC
             } else {
-                New-ADUser @userObject -Server $DC -Credential $credentials
+                $newUser = New-ADUser @userObject -Server $DC -PassThru -Credential $credentials
                 Set-ADUser $userObject.samAccountName -Enabled $true -Server $DC -Credential $credentials
             }
 
@@ -220,7 +220,7 @@ $createButton_Click = {
             #If groups are requested, try to add the user to the groups
             if ($addGroupsCheckbox.Checked) {
                 [Array]$selectedgroups = $groupTreeView.Nodes | Where-Object {$_.Checked -eq $true}
-                Add-UserToGroups -selectedgroups $selectedgroups -User $userObject
+                Add-UserToGroups -selectedgroups $selectedgroups -User $newUser
             }
 
             $createUserForm.Close()
